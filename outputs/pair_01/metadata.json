@@ -1,0 +1,17 @@
+{
+    "pair_id": "pair_01",
+    "tmc2": {
+        "shape": [
+            295234,
+            4000
+        ],
+        "resolution": 5.4
+    },
+    "ohrc": {
+        "shape": [
+            93693,
+            12000
+        ],
+        "resolution": 0.25
+    }
+}
