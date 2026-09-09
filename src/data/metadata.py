@@ -58,6 +58,20 @@ def parse_pds4_xml(xml_path: str | Path) -> SensorMetadata:
                     elif name_elem.text.strip() == "Sample":
                         samples = int(elem_count.text.strip())
         
+        # 4. Corner Coordinates
+        lat_ul = find_value("upper_left_latitude", float)
+        lat_ur = find_value("upper_right_latitude", float)
+        lat_ll = find_value("lower_left_latitude", float)
+        lat_lr = find_value("lower_right_latitude", float)
+        
+        lon_ul = find_value("upper_left_longitude", float)
+        lon_ur = find_value("upper_right_longitude", float)
+        lon_ll = find_value("lower_left_longitude", float)
+        lon_lr = find_value("lower_right_longitude", float)
+        
+        lat_corners = (lat_ul, lat_ur, lat_ll, lat_lr) if lat_ul is not None else None
+        lon_corners = (lon_ul, lon_ur, lon_ll, lon_lr) if lon_ul is not None else None
+
         logger.info(f"Extracted metadata from {path.name}: {lines}x{samples}, GSD: {resolution_m}m")
 
         return SensorMetadata(
@@ -65,7 +79,9 @@ def parse_pds4_xml(xml_path: str | Path) -> SensorMetadata:
             dimensions_native=(lines, samples),
             solar_azimuth=solar_azimuth,
             solar_elevation=solar_elevation,
-            solar_incidence=solar_incidence
+            solar_incidence=solar_incidence,
+            lat_corners=lat_corners,
+            lon_corners=lon_corners
         )
         
     except ET.ParseError as e:
