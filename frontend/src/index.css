@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  background: #080808;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #080808;
+}
+
+.dashboard-shell .bg-white { background-color: #121212 !important; }
+.dashboard-shell .bg-slate-50 { background-color: #171717 !important; }
+.dashboard-shell .bg-slate-100 { background-color: #1f1f1f !important; }
+.dashboard-shell .text-slate-900,
+.dashboard-shell .text-slate-800 { color: #f1f1f1 !important; }
+.dashboard-shell .text-slate-700 { color: #d1d1d1 !important; }
+.dashboard-shell .text-slate-600,
+.dashboard-shell .text-slate-500 { color: #a3a3a3 !important; }
+.dashboard-shell .border-slate-200,
+.dashboard-shell .border-slate-200\/80 { border-color: #2a2a2a !important; }
