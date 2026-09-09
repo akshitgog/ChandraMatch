@@ -1,0 +1,113 @@
+project:
+  name: chandrayaan2_tmc2_ohrc_correspondence
+  problem_statement_id: 26166
+
+dataset:
+  source_priority:
+    - huggingface
+    - local
+
+  huggingface:
+    enabled: true
+    repo_id: "ISRO/chandrayaan2-correspondence"
+    repo_type: "dataset"
+    revision: "main"
+    cache_dir: "./data/cache/huggingface"
+    token_env: "HF_TOKEN"
+
+  local:
+    enabled: true
+    root_dir: "C:/Users/Galactus/OneDrive/Desktop/dataset/triplet_1"
+
+  pairs:
+    pair_01:
+      tmc2_xml: "ch2_tmc_ncf_20250807T1904346039_d_img_d18/data/calibrated/20250807/ch2_tmc_ncf_20250807T1904346039_d_img_d18.xml"
+      tmc2_img: "ch2_tmc_ncf_20250807T1904346039_d_img_d18/data/calibrated/20250807/ch2_tmc_ncf_20250807T1904346039_d_img_d18.img"
+      ohrc_xml: "ch2_ohr_ncp_20210405T1606536730_d_img_d18/data/calibrated/20210405/ch2_ohr_ncp_20210405T1606536730_d_img_d18.xml"
+      ohrc_img: "ch2_ohr_ncp_20210405T1606536730_d_img_d18/data/calibrated/20210405/ch2_ohr_ncp_20210405T1606536730_d_img_d18.img"
+      # Pointing offset correction for PDS4 orbital geometry misalignment (TMC-2 pixels)
+      pointing_offset_x: 200
+      pointing_offset_y: -625
+
+sensors:
+  TMC2:
+    nominal_resolution_m: 5.0
+  OHRC:
+    nominal_resolution_m: 0.30
+
+preprocessing:
+  preserve_native_images: true
+  clahe:
+    clip_limit: 3.0
+    tile_size: 8
+  percentile_normalization:
+    low: 2
+    high: 98
+  illumination:
+    enabled: true
+    metadata:
+      use_solar_azimuth: true
+      use_solar_elevation: true
+      use_incidence_angle: true
+    local_contrast:
+      enabled: true
+    gradient_representation:
+      enabled: true
+    shadow_mask:
+      enabled: true
+
+scale:
+  strategy: "multiscale"
+  pyramid:
+    enabled: true
+    levels: 3
+    scales: [1.0, 0.75, 0.5]
+  interpolation:
+    method: "bicubic"
+
+matching:
+  backend: "ensemble"
+  allow_optional_sift_baseline: true
+  use_orb: false
+  confidence_threshold: 0.3
+  dedup_radius: 3.0
+  target_match_px: 500
+
+geometric_verification:
+  enabled: true
+  model: "affine"
+  ransac:
+    enabled: true
+    threshold: 3.0
+    max_iters: 10000
+    confidence: 0.999
+  sanity:
+    min_determinant: 0.1
+    min_scale: 0.2
+    max_scale: 5.0
+    min_inliers: 5
+
+uniform_distribution:
+  enabled: true
+  grid_rows: 8
+  grid_cols: 8
+  max_matches_per_cell: 5
+
+subpixel:
+  enabled: true
+
+evaluation:
+  metrics:
+    - rmse_pixels
+    - rmse_meters
+    - inlier_count
+    - inlier_ratio
+    - spatial_coverage
+
+output:
+  root_dir: "./outputs"
+  save_registered: true
+  save_matches_csv: true
+  save_visualization: true
+  save_overlay: true
+  save_metrics_json: true

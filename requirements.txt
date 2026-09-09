@@ -1,0 +1,12 @@
+numpy>=1.23.0
+opencv-python-headless>=4.7.0
+scipy>=1.9.0
+pyyaml>=6.0
+rasterio>=1.3.0
+huggingface_hub>=0.14.0
+datasets>=2.12.0
+matplotlib>=3.7.0
+tqdm>=4.65.0
+scikit-image>=0.20.0
+torch>=2.0.0
+kornia>=0.7.0
