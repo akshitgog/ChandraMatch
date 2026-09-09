@@ -1,0 +1,6 @@
+{
+  "name": "ChandraMatch",
+  "description": "Multi-modal Lunar Image Registration using OHRC, TMC-2 and IIRS with dual card-shaped image inputs, interactive alignment, and correspondence analysis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
